@@ -2,8 +2,8 @@
 
 ## Login to the system
 
-username: admin
-password: admin
+- username: admin
+- password: admin
 
 ## Project setup
 ```
