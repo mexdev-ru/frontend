@@ -1,5 +1,10 @@
 # authorization_page
 
+## Login to the system
+
+- username: admin
+- password: admin
+
 ## Project setup
 ```
 npm install
