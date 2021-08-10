@@ -44,7 +44,7 @@
         </div>
         <div class="btn-submit">
           <Button label="Log in" @click="logInM" />
-          <Toast v-if="isValidName && isValidPassword" />
+          <Toast />
         </div>
       </div>
     </template>
@@ -52,7 +52,7 @@
 </template>
 
 <script>
-import {get} from "@/backend";
+import { get } from "@/backend";
 export default {
   data() {
     return {
@@ -84,16 +84,32 @@ export default {
       console.log(this.userName);
       if (this.userName === "" || this.userName === null) {
         this.isValidName = false;
-        }
+        this.$toast.add({
+            severity: "error",
+            summary: "Error Message",
+            detail: "Forgot to enter your name.",
+            life: 2000,
+          });
+      }
       if (this.userPassword === "" || this.userPassword === null) {
         this.isValidPassword = false;
+        this.$toast.add({
+            severity: "error",
+            summary: "Error Message",
+            detail: "Forgot to enter your password.",
+            life: 2000,
+          });
       }
-      if(this.isValidName && this.isValidPassword)
-      {
-        
-        if (get(this.userName, this.userPassword)!==null)
-        {
-          this.$router.push("Home")
+      if (this.isValidName && this.isValidPassword) {
+        if (get(this.userName, this.userPassword) !== null) {
+          this.$router.push("Home");
+        } else {
+          this.$toast.add({
+            severity: "error",
+            summary: "Error Message",
+            detail: "Wrong login or password!",
+            life: 4000,
+          });
         }
       }
     },
