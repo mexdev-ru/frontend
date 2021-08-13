@@ -3,11 +3,61 @@ services:
   web:
     image: node:15.8-alpine3.11
     ports:
-      - "8080:8080"
+      - "8083:8083"
     volumes:
       - ".:/app"
     environment:
       NODE_ENV: development
+
       HOST: 0.0.0.0
     working_dir: /app
     command: sh -c "cd /app; npm install; npm run serve"
+    
+
+    networks:
+      - example
+
+  keycloak:
+    image: jboss/keycloak
+    container_name: keycloak
+    ports:
+      - "8080:8080"
+    environment:
+      DB_VENDOR: POSTGRES
+      DB_ADDR: keycloak_db
+      DB_DATABASE: keycloak_db
+      DB_USER: root
+      DB_PASSWORD: admin
+      KEYCLOAK_USER: admin
+      KEYCLOAK_PASSWORD: admin_password
+    depends_on:
+      - keycloak_db
+    links:
+      - "keycloak_db:keycloak_db"
+    networks:
+      example:
+        aliases:
+          - keylocal.vetermanve.com
+
+  keycloak_db:
+    container_name: keycloak_db
+    image: postgres:13.1-alpine
+    ports:
+      - "5431:5431"
+    restart: unless-stopped
+    networks:
+      - example
+    volumes:
+      - keycloak_db:/var/lib/postgresql/data
+    environment:
+      POSTGRES_DB: keycloak_db
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: admin
+
+volumes:
+  service_db:
+  keycloak_db:
+networks:
+  example:
+
+    

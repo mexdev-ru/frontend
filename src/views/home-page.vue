@@ -14,6 +14,7 @@
 </template>
 
 <script>
+import Keycloak from "@/plugins/keycloak";
 export default {
   data() {
     return {
@@ -26,5 +27,9 @@ export default {
       this.$router.push("/");
     },
   },
+  async created() {
+    let user = await Keycloak.loadUserProfile();
+    console.log(user);
+  }
 };
 </script>
