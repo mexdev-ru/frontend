@@ -10,6 +10,7 @@ import Password from 'primevue/password';
 import Toast from 'primevue/toast';
 import Card from 'primevue/card';
 import axios from 'axios';
+// import VueResource from 'vue-resource';
 
 import 'primevue/resources/themes/saga-blue/theme.css'       //theme
 import 'primevue/resources/primevue.min.css'                 //core css
@@ -23,13 +24,18 @@ axios.defaults.headers.get['header-name'] = 'value'
 
 app.use(PrimeVue);
 app.use(ToastService);
+// app.use(VueResource);
 app.config.productionTip = false
 app.component('InputText', InputText);
 app.component('Button', Button);
 app.component('Toast', Toast);
 app.component('Password', Password);
 app.component('Card', Card);
-
+// var cors = require('cors');
+ 
+// app.use(cors({
+//   origin: 'http://localhost:8080'
+// }));
 app.use(router);
 
 Keycloak.init({ onLoad: "login-required" })
@@ -38,7 +44,8 @@ Keycloak.init({ onLoad: "login-required" })
         console.log("jkhsjfh");
       window.location.reload();
     } else {
-        console.log("hui");
+        console.log(Keycloak.token);
+        localStorage.setItem("vue-token", Keycloak.token)
       app.mount("#app");
     }
     //Token Refresh

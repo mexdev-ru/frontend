@@ -53,6 +53,7 @@
 
 <script>
 import { get } from "@/backend";
+import axios from "axios";
 export default {
   data() {
     return {
@@ -82,36 +83,70 @@ export default {
   methods: {
     logInM() {
       console.log(this.userName);
-      if (this.userName === "" || this.userName === null) {
-        this.isValidName = false;
-        this.$toast.add({
-            severity: "error",
-            summary: "Error Message",
-            detail: "Forgot to enter your name.",
-            life: 2000,
+      this.login(this.userName, this.userPassword)
+      get(this.userName, this.userPassword)
+      // if (this.userName === "" || this.userName === null) {
+      //   this.isValidName = false;
+      //   this.$toast.add({
+      //     severity: "error",
+      //     summary: "Error Message",
+      //     detail: "Forgot to enter your name.",
+      //     life: 2000,
+      //   });
+      // }
+      // if (this.userPassword === "" || this.userPassword === null) {
+      //   this.isValidPassword = false;
+      //   this.$toast.add({
+      //     severity: "error",
+      //     summary: "Error Message",
+      //     detail: "Forgot to enter your password.",
+      //     life: 2000,
+      //   });
+      // }
+      // if (this.isValidName && this.isValidPassword) {
+      //   if (get(this.userName, this.userPassword) !== null) {
+      //     this.$router.push("Home");
+      //   } else {
+      //     this.$toast.add({
+      //       severity: "error",
+      //       summary: "Error Message",
+      //       detail: "Wrong login or password!",
+      //       life: 4000,
+      //     });
+      //   }
+      // }
+    },
+
+    login(username, password) {
+      console.log(username + password)
+      let headers = {
+        "Content-Type": "application/x-www-form-urlencoded",
+        "Access-Control-Allow-Origin": "*",
+        'Access-Control-Allow-Credentials':true
+      };
+
+      // const postData = {
+      //   grant_type: "authorization_code",
+      //   client_id: "my_client",
+      //   username: username,
+      //   password: password,
+      //   scope: "openid",
+      // };
+      axios
+        .post(
+          "http://localhost:8080/auth/realms/my_realm/protocol/openid-connect/token",
+      
+        {headers: headers}, {params: {grant_type: 'client_credentials',
+        client_id: 'my_client',
+        username: username,
+        password: password,
+        scope: 'openid'}}
+        )
+        .then(response => {
+     
+            let tokeninfo = this.jwtDec(response.access_token);
+            console.log(tokeninfo);
           });
-      }
-      if (this.userPassword === "" || this.userPassword === null) {
-        this.isValidPassword = false;
-        this.$toast.add({
-            severity: "error",
-            summary: "Error Message",
-            detail: "Forgot to enter your password.",
-            life: 2000,
-          });
-      }
-      if (this.isValidName && this.isValidPassword) {
-        if (get(this.userName, this.userPassword) !== null) {
-          this.$router.push("Home");
-        } else {
-          this.$toast.add({
-            severity: "error",
-            summary: "Error Message",
-            detail: "Wrong login or password!",
-            life: 4000,
-          });
-        }
-      }
     },
   },
 };
