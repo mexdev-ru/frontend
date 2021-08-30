@@ -54,6 +54,8 @@ export default {
         this.roleList = response.data;
       });
     console.log(process.env.VUE_APP_PROXY);
+    console.log(localStorage.getItem("vue-token"));
+    console.log(Keycloak.token);
   },
   methods: {
     handlyInput(event) {
@@ -143,12 +145,16 @@ export default {
     showAll() {
       this.selectedRole = [];
       axios
-        .get("http://" + process.env.VUE_APP_URL + "/role/all", {
-          headers: { Authorization: `Bearer ${this.token}` },
-        })
-        .then((response) => {
-          this.roleList = response.data;
-        });
+          .get("http://" + process.env.VUE_APP_URL + "/role/all", {
+            headers: {
+              Authorization: "Bearer " + localStorage.getItem("vue-token"),
+            },
+          })
+          .then((response) => {
+            this.roleList = response.data;
+          });
+      console.log(process.env.VUE_APP_PROXY);
+      console.log(localStorage.getItem("vue-token"));
     },
     editRole() {
       if (this.textInput === "") {

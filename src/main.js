@@ -18,7 +18,6 @@ import 'primeicons/primeicons.css'                           //icons
 
 import Keycloak from './plugins/keycloak'
 
-
 const app = createApp(App);
 axios.defaults.headers.get['header-name'] = 'value'
 
@@ -31,30 +30,37 @@ app.component('Button', Button);
 app.component('Toast', Toast);
 app.component('Password', Password);
 app.component('Card', Card);
-// var cors = require('cors');
- 
-// app.use(cors({
-//   origin: 'http://localhost:8080'
-// }));
+
 app.use(router);
 
-Keycloak.init({ onLoad: "login-required" })
-  .then(auth => {
-    if (!auth) {
-        console.log("jkhsjfh");
-      window.location.reload();
-    } else {
-        console.log(Keycloak.token);
-        localStorage.setItem("vue-token", Keycloak.token)
-      app.mount("#app");
-    }
-    //Token Refresh
-    setInterval(() => {
-      Keycloak.updateToken(70).catch(() => {
-        console.error("Failed to refresh token");
-      });
-    }, 6000);
-  })
-  .catch((error) => {
-    console.error(error);
-  });
+Keycloak.init({onLoad: "login-required"})
+    .then(auth => {
+        if (!auth) {
+            console.log("jkhsjfh");
+            window.location.reload();
+        } else {
+            console.log(Keycloak.token);
+            localStorage.setItem("vue-token", Keycloak.token)
+            app.mount("#app");
+        }
+        //Token Refresh
+        // Пытаемся обновить токен каждые 6 секунд
+        setInterval(() => {
+            // Обновляем токен, если срок его действия истекает в течении 70 секунд
+            Keycloak.updateToken(200).then((refreshed) => {
+                if (refreshed) {
+                    console.log('Token refreshed' + refreshed);
+                    localStorage.setItem("vue-token", Keycloak.token)
+                } else {
+                    console.log('Token not refreshed, valid for '
+                        + Math.round(Keycloak.tokenParsed.exp
+                            + Keycloak.timeSkew - new Date().getTime() / 1000) + ' seconds');
+                }
+            }).catch(() => {
+                console.log('Failed to refresh token');
+            });
+        }, 6000)
+    })
+    .catch((error) => {
+        console.error(error);
+    });
