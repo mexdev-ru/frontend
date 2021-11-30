@@ -119,11 +119,11 @@ export default {
 
     login(username, password) {
       console.log(username + password)
-      let headers = {
-        "Content-Type": "application/x-www-form-urlencoded",
-        "Access-Control-Allow-Origin": "*",
-        'Access-Control-Allow-Credentials':true
-      };
+      // let headers = {
+      //   "Content-Type": "application/x-www-form-urlencoded",
+      //   "Access-Control-Allow-Origin": "*",
+      //   'Access-Control-Allow-Credentials':true
+      // };
 
       // const postData = {
       //   grant_type: "authorization_code",
@@ -132,18 +132,21 @@ export default {
       //   password: password,
       //   scope: "openid",
       // };
+
+      const params = new URLSearchParams();
+      params.append('grant_type', 'client_credentials');
+      params.append('client_id', 'my_client');
+      params.append('scope', 'openid');
+      params.append('username', username);
+      params.append('password', password);
+
       axios
-        .post(
-          "http://localhost:8080/auth/realms/my_realm/protocol/openid-connect/token",
-      
-        {headers: headers}, {params: {grant_type: 'client_credentials',
-        client_id: 'my_client',
-        username: username,
-        password: password,
-        scope: 'openid'}}
-        )
+              .post(
+                      "http://keycloak:8080/auth/realms/my_realm/protocol/openid-connect/token",
+                      params
+              )
         .then(response => {
-     
+
             let tokeninfo = this.jwtDec(response.access_token);
             console.log(tokeninfo);
           });
