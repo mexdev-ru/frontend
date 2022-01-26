@@ -1,7 +1,5 @@
 import Vue from 'vue'
 
-const TOKEN_MIN_VALIDITY_SECONDS = 70;
-
 export async function updateToken () {
-    return await Vue.$keycloak.updateToken(TOKEN_MIN_VALIDITY_SECONDS);
+    return await Vue.$keycloak.updateToken(process.env.VUE_APP_KEYCLOAK_MIN_VALID_TOKEN || 60);
 }

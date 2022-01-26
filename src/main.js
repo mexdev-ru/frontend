@@ -14,6 +14,7 @@ import Card from 'primevue/card';
 import '@/plugins/keycloak'
 import { updateToken } from '@/plugins/keycloak-util'
 
+import '@/plugins/axios'
 
 import 'primevue/resources/themes/saga-blue/theme.css'       //theme
 import 'primevue/resources/primevue.min.css'                 //core css
