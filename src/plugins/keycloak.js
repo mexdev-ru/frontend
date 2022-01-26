@@ -1,11 +1,20 @@
-import Keycloak from "keycloak-js";
+import Vue from 'vue'
+import Keycloak from 'keycloak-js'
 
-let initOptions = {
+const initOptions = {
         url: process.env.VUE_APP_KEYCLOAK_URL,
-        realm: process.env.VUE_APP_KEYCLOAK_REALM,
-        clientId: process.env.VUE_APP_KEYCLOAK_CLIENT_ID,
-        onLoad: "login-required"
+        realm: 'list-keep',
+        clientId: 'list-keep'
+}
 
-};
+const keycloak = Keycloak(initOptions)
 
-export default Keycloak(initOptions);
+const KeycloakPlugin = {
+        install: Vue => {
+                Vue.$keycloak = keycloak
+        }
+}
+
+Vue.use(KeycloakPlugin)
+
+export default KeycloakPlugin
