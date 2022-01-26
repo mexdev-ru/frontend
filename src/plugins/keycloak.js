@@ -14,7 +14,7 @@ const KeycloakPlugin = {
                 Vue.$keycloak = keycloak
         }
 }
-console.log(Vue)
+
 Vue.use(KeycloakPlugin)
 
 export default KeycloakPlugin

@@ -9,7 +9,7 @@ import Button from 'primevue/button';
 import Password from 'primevue/password';
 import Toast from 'primevue/toast';
 import Card from 'primevue/card';
-// import axios from 'axios';
+
 // import VueResource from 'vue-resource';
 import '@/plugins/keycloak'
 import { updateToken } from '@/plugins/keycloak-util'
@@ -19,10 +19,7 @@ import 'primevue/resources/themes/saga-blue/theme.css'       //theme
 import 'primevue/resources/primevue.min.css'                 //core css
 import 'primeicons/primeicons.css'                           //icons
 
-
-console.log("asdfdfasdf");
-
-// const app = createApp(App);
+// import axios from 'axios';
 //axios.defaults.headers.get['header-name'] = 'value'
 
 Vue.use(PrimeVue);
@@ -50,38 +47,20 @@ Vue.$keycloak.init({ onLoad: 'login-required' }).then((auth) => {
 
         window.onfocus = () => {
             updateToken()
-        }
+        };
+
+        // Пытаемся обновить токен каждые 6 секунд
+        setInterval(() => {
+            // Обновляем токен, если срок его действия истекает в течении 70 секунд
+            updateToken().then((refreshed) => {
+                if (refreshed) {
+                    console.log('Token refreshed');
+                } else {
+                    console.log('Token not refreshed, will be refreshed later.');
+                }
+            }).catch(() => {
+                console.log('Failed to refresh token');
+            });
+        }, 6000)
     }
 });
-
-// Keycloak.init({onLoad: "login-required"})
-//     .then(auth => {
-//         if (!auth) {
-//             console.log("jkhsjfh");
-//             window.location.reload();
-//         } else {
-//             console.log(Keycloak.token);
-//             localStorage.setItem("vue-token", Keycloak.token)
-//             app.mount("#app");
-//         }
-//         //Token Refresh
-//         // Пытаемся обновить токен каждые 6 секунд
-//         setInterval(() => {
-//             // Обновляем токен, если срок его действия истекает в течении 70 секунд
-//             Keycloak.updateToken(200).then((refreshed) => {
-//                 if (refreshed) {
-//                     console.log('Token refreshed' + refreshed);
-//                     localStorage.setItem("vue-token", Keycloak.token)
-//                 } else {
-//                     console.log('Token not refreshed, valid for '
-//                         + Math.round(Keycloak.tokenParsed.exp
-//                             + Keycloak.timeSkew - new Date().getTime() / 1000) + ' seconds');
-//                 }
-//             }).catch(() => {
-//                 console.log('Failed to refresh token');
-//             });
-//         }, 6000)
-//     })
-//     .catch((error) => {
-//         console.error(error);
-//     });
