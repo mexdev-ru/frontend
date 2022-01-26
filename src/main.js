@@ -1,4 +1,5 @@
 // import Vue from 'vue'
+import Vue from 'vue'
 import {createApp} from 'vue'
 import App from './App.vue'
 import router from './router'
@@ -12,6 +13,8 @@ import Card from 'primevue/card';
 // import axios from 'axios';
 // import VueResource from 'vue-resource';
 
+
+
 import 'primevue/resources/themes/saga-blue/theme.css'       //theme
 import 'primevue/resources/primevue.min.css'                 //core css
 import 'primeicons/primeicons.css'                           //icons
@@ -19,7 +22,7 @@ import 'primeicons/primeicons.css'                           //icons
 import '@/plugins/keycloak'
 import { updateToken } from '@/plugins/keycloak-util'
 
-import Keycloak from './plugins/keycloak'
+
 
 const app = createApp(App);
 //axios.defaults.headers.get['header-name'] = 'value'

@@ -3,8 +3,8 @@ import Keycloak from 'keycloak-js'
 
 const initOptions = {
         url: process.env.VUE_APP_KEYCLOAK_URL,
-        realm: 'list-keep',
-        clientId: 'list-keep'
+        realm: 'my_realm',
+        clientId: 'my_client'
 }
 
 const keycloak = Keycloak(initOptions)
@@ -14,7 +14,7 @@ const KeycloakPlugin = {
                 Vue.$keycloak = keycloak
         }
 }
-
+console.log(Vue)
 Vue.use(KeycloakPlugin)
 
 export default KeycloakPlugin

@@ -54,7 +54,7 @@
 <script>
 import { get } from "@/backend";
 // import axios from "axios";
-import Keycloak from '@/plugins/keycloak'
+//import Keycloak from '@/plugins/keycloak'
 
 export default {
   data() {
@@ -120,7 +120,7 @@ export default {
     },
 
     login(username, password) {
-      console.log(Keycloak);
+      //console.log(Keycloak);
       // console.log(username + password);
       // // let headers = {
       // //   "Content-Type": "application/x-www-form-urlencoded",
