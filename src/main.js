@@ -1,8 +1,7 @@
 // import Vue from 'vue'
 import Vue from 'vue'
-import {createApp} from 'vue'
 import App from './App.vue'
-import router from './router'
+import router from './router/index'
 import ToastService from 'primevue/toastservice';
 import PrimeVue from 'primevue/config';
 import InputText from 'primevue/inputtext';
@@ -12,32 +11,31 @@ import Toast from 'primevue/toast';
 import Card from 'primevue/card';
 // import axios from 'axios';
 // import VueResource from 'vue-resource';
-
+import '@/plugins/keycloak'
+import { updateToken } from '@/plugins/keycloak-util'
 
 
 import 'primevue/resources/themes/saga-blue/theme.css'       //theme
 import 'primevue/resources/primevue.min.css'                 //core css
 import 'primeicons/primeicons.css'                           //icons
 
-import '@/plugins/keycloak'
-import { updateToken } from '@/plugins/keycloak-util'
 
+console.log("asdfdfasdf");
 
-
-const app = createApp(App);
+// const app = createApp(App);
 //axios.defaults.headers.get['header-name'] = 'value'
 
-app.use(PrimeVue);
-app.use(ToastService);
+Vue.use(PrimeVue);
+Vue.use(ToastService);
 // app.use(VueResource);
-app.config.productionTip = false;
-app.component('InputText', InputText);
-app.component('Button', Button);
-app.component('Toast', Toast);
-app.component('Password', Password);
-app.component('Card', Card);
+Vue.config.productionTip = false;
+Vue.component('InputText', InputText);
+Vue.component('Button', Button);
+Vue.component('Toast', Toast);
+Vue.component('Password', Password);
+Vue.component('Card', Card);
 
-app.use(router);
+Vue.use(router);
 
 Vue.$keycloak.init({ onLoad: 'login-required' }).then((auth) => {
     if (!auth) {

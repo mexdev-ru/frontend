@@ -1,19 +1,30 @@
 version: "3.9"
 services:
-  web:
+#  build:
+#    build:
+#      context: ./.docker/build
+#    volumes:
+#      - ".:/app"
+#    environment:
+#      NODE_ENV: development
+#    working_dir: /app
+
+  local:
     build:
-      context: ./
-      #args:
+      context: ./.docker/local
     ports:
-      - "8083:80"
- #   volumes:
- #     - ".:/app"
+      - "8083:8083"
+    volumes:
+      - ".:/app"
     environment:
       NODE_ENV: development
       HOST: 0.0.0.0
     working_dir: /app
     networks:
       - backend
+    command: /app/run.sh
+#    depends_on:
+#      - "build"
 
 networks:
   backend:
