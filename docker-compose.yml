@@ -1,13 +1,13 @@
 version: "3.9"
 services:
-#  build:
-#    build:
-#      context: ./.docker/build
-#    volumes:
-#      - ".:/app"
-#    environment:
-#      NODE_ENV: development
-#    working_dir: /app
+  frontend:
+    build:
+      context: ./
+    ports:
+      - "8085:80"
+    environment:
+      NODE_ENV: development
+    working_dir: /app
 
   local:
     build:
@@ -21,13 +21,12 @@ services:
       HOST: 0.0.0.0
     working_dir: /app
     networks:
-      - backend
+      - montana
     command: /app/run.sh
 #    depends_on:
 #      - "build"
 
 networks:
-  backend:
+  montana:
     external: true
-    name: keycloak_network
-    
+    name: montana_network
