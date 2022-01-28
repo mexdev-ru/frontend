@@ -9,7 +9,7 @@ services:
 #      NODE_ENV: development
 #    working_dir: /app
 
-  local:
+  frontend:
     build:
       context: ./.docker/local
     ports:
@@ -21,13 +21,12 @@ services:
       HOST: 0.0.0.0
     working_dir: /app
     networks:
-      - backend
+      - montana
     command: /app/run.sh
 #    depends_on:
 #      - "build"
 
 networks:
-  backend:
+  montana:
     external: true
-    name: keycloak_network
-    
+    name: montana_network
